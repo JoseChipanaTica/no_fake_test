@@ -1,0 +1,435 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "NoFakes - Endpoints",
+    "description": "This is a simple NoFakes - Endpoint specification.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "jose@nofakes.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    },
+    {
+      "url": "https://nofake.io/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "business"
+    },
+    {
+      "name": "review"
+    }
+  ],
+  "paths": {
+    "/business/online-business": {
+      "post": {
+        "tags": [
+          "business"
+        ],
+        "summary": "Add a new online business to marketplace",
+        "operationId": "addOnlineBusiness",
+        "requestBody": {
+          "description": "Create a new online business",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnlineBusiness"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/business/physical-business": {
+      "post": {
+        "tags": [
+          "business"
+        ],
+        "summary": "Add a new physical business to marketplace",
+        "operationId": "addPhysicalBusiness",
+        "requestBody": {
+          "description": "Create a new pet in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhysicalBusiness"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/business/{id}": {
+      "get": {
+        "tags": [
+          "business"
+        ],
+        "summary": "Get Business Information",
+        "operationId": "getBusinessInformation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Business"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/business/businessFeatures/{id}": {
+      "get": {
+        "tags": [
+          "business"
+        ],
+        "summary": "Add Business Information",
+        "operationId": "getBusinessInformationFeatures",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessFeatures"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/review/": {
+      "post": {
+        "tags": [
+          "review"
+        ],
+        "summary": "Add new business review",
+        "operationId": "addBusinessReview",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Review"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "headers": {
+              "X-Rate-Limit": {
+                "description": "calls per hour allowed by the user",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "X-Expires-After": {
+                "description": "date in UTC when token expires",
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OnlineBusiness": {
+        "required": [
+          "name",
+          "website",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maximum": 75,
+                "example": "Online Business"
+              },
+              "website": {
+                "type": "string",
+                "example": "www.no-fakes.ai"
+              },
+              "email": {
+                "type": "string",
+                "description": "Business email",
+                "example": "example@example.com"
+              }
+            }
+          }
+        }
+      },
+      "PhysicalBusiness": {
+        "required": [
+          "name",
+          "address",
+          "phone",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maximum": 75,
+                "example": "Online Business"
+              },
+              "address": {
+                "type": "string",
+                "example": "Calle Madrid 15 L-1"
+              },
+              "phone": {
+                "type": "string",
+                "example": "632401366"
+              },
+              "email": {
+                "type": "string",
+                "description": "Business email",
+                "example": "example@example.com"
+              }
+            }
+          }
+        }
+      },
+      "Business": {
+        "required": [
+          "name",
+          "address",
+          "phone",
+          "email",
+          "website",
+          "type",
+          "reviewCount"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maximum": 75,
+                "example": "Online Business"
+              },
+              "address": {
+                "type": "string",
+                "example": "Calle Madrid 15 L-1"
+              },
+              "phone": {
+                "type": "string",
+                "example": "632401366"
+              },
+              "email": {
+                "type": "string",
+                "example": "example@example.com"
+              },
+              "website": {
+                "type": "string",
+                "example": "no-fakes.io"
+              },
+              "type": {
+                "type": "string",
+                "example": "online"
+              },
+              "numberReviews": {
+                "type": "integer",
+                "example": "0"
+              }
+            }
+          }
+        }
+      },
+      "BusinessFeatures": {
+        "required": [
+          "name",
+          "address",
+          "phone",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maximum": 75,
+            "example": "Online Business"
+          },
+          "address": {
+            "type": "string",
+            "example": "Calle Madrid 15 L-1"
+          },
+          "phone": {
+            "type": "string",
+            "example": "632401366"
+          },
+          "email": {
+            "type": "string",
+            "example": "example@example.com"
+          },
+          "website": {
+            "type": "string",
+            "example": "no-fakes.io"
+          },
+          "type": {
+            "type": "string",
+            "example": "online"
+          },
+          "numberReviews": {
+            "type": "integer",
+            "example": "0"
+          },
+          "averageRating": {
+            "type": "integer",
+            "example": "4.5"
+          }
+        }
+      },
+      "Review": {
+        "required": [
+          "text",
+          "rating",
+          "username",
+          "businessId"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "maxLength": 500,
+                "minLength": 20,
+                "example": "Good service"
+              },
+              "rating": {
+                "type": "integer",
+                "maximum": 5,
+                "minimum": 1,
+                "example": "4.5"
+              },
+              "username": {
+                "type": "string",
+                "example": "Jose Chipana"
+              },
+              "businessId": {
+                "type": "string",
+                "example": "543g34545f24sdfsdfq3"
+              }
+            }
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      },
+      "Bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": ">- Enter the token with the ` Bearer: ` prefix, e.g. Bearer abcde12345"
+      }
+    }
+  }
+}
