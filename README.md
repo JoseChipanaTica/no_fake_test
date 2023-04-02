@@ -36,4 +36,4 @@ The server port for default is "3000" so you can access to the endpoints in the 
     localhost:3000/
     ````
 
-You can find the API documentation in ````localhost:3000:api-docs````
+You can find the API documentation in ````localhost:3000/api-docs````
